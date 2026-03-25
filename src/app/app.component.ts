@@ -20,9 +20,10 @@ export class AppComponent {
     { label: 'Transactions', routerLink: '/transactions' },
   ];
 
-  private readonly auth = inject(AuthenticatorService);
+  /** Exposed for auth-layout theme switching (sign-in vs app shell). */
+  protected readonly authenticator = inject(AuthenticatorService);
 
   protected signOut(): void {
-    void this.auth.signOut();
+    void this.authenticator.signOut();
   }
 }

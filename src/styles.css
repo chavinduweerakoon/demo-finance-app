@@ -5,6 +5,94 @@ body {
   min-height: 100vh;
 }
 
+/* ---- Amplify sign-in / sign-up (gradient + centered card) ---- */
+.auth-layout:not(.auth-layout--signed-in) {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse 120% 80% at 20% 0%, rgba(45, 212, 191, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 60% at 100% 100%, rgba(99, 102, 241, 0.32) 0%, transparent 45%),
+    linear-gradient(155deg, #0c4a6e 0%, #0f172a 42%, #020617 100%);
+
+  /* Modern Amplify card + teal accent (scoped to this layout only) */
+  --amplify-components-authenticator-router-background-color: #ffffff;
+  --amplify-components-authenticator-router-border-radius: 1rem;
+  --amplify-components-authenticator-router-border-width: 0;
+  --amplify-components-authenticator-router-box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+  --amplify-components-authenticator-router-border-style: solid;
+  --amplify-components-authenticator-container-width-max: 26rem;
+  --amplify-components-button-primary-background-color: #0d9488;
+  --amplify-components-button-primary-hover-background-color: #0f766e;
+  --amplify-components-tabs-item-active-color: #0d9488;
+  --amplify-components-tabs-item-active-border-color: #0d9488;
+  --amplify-components-fieldcontrol-border-radius: 0.5rem;
+}
+
+.auth-layout:not(.auth-layout--signed-in) amplify-authenticator {
+  display: block;
+  width: 100%;
+  max-width: 26rem;
+}
+
+.auth-layout:not(.auth-layout--signed-in) [data-amplify-authenticator] {
+  min-height: unset;
+}
+
+.auth-layout:not(.auth-layout--signed-in) [data-amplify-authenticator] [data-amplify-container] {
+  place-self: stretch;
+  width: 100%;
+}
+
+.auth-brand-block {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  padding: 0 0.25rem;
+  color: #f0fdfa;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.auth-brand-title {
+  font-size: clamp(1.5rem, 4.5vw, 2.125rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.auth-brand-version {
+  font-weight: 600;
+  font-size: 0.75em;
+  opacity: 0.88;
+  vertical-align: baseline;
+}
+
+.auth-brand-sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  opacity: 0.92;
+  max-width: 22rem;
+  margin-inline: auto;
+}
+
+.auth-layout--signed-in {
+  min-height: 100vh;
+  background: var(--p-content-background, #f8fafc);
+}
+
+.auth-layout--signed-in amplify-authenticator,
+.auth-layout--signed-in [data-amplify-authenticator],
+.auth-layout--signed-in [data-amplify-authenticator] [data-amplify-container] {
+  display: block;
+  width: 100%;
+  max-width: none;
+}
+
 .app-shell {
   min-height: 100vh;
   display: flex;

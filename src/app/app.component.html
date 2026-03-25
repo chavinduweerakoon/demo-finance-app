@@ -1,27 +1,41 @@
-<amplify-authenticator [loginMechanisms]="['email']">
-  <ng-template amplifySlot="authenticated">
-    <div class="app-shell">
-      <div class="app-header-bar">
-        <p-menubar [model]="navItems" [breakpoint]="'0px'" styleClass="app-menubar-inner">
-          <ng-template pTemplate="start">
-            <a routerLink="/dashboard" class="app-brand">{{ title }}</a>
-          </ng-template>
-        </p-menubar>
-        <div class="app-header-signout">
-          <p-button
-            type="button"
-            label="Sign out"
-            icon="pi pi-sign-out"
-            severity="danger"
-            size="small"
-            (onClick)="signOut()"
-          />
-        </div>
+<div
+  class="auth-layout"
+  [class.auth-layout--signed-in]="authenticator.authStatus === 'authenticated'"
+>
+  <amplify-authenticator [loginMechanisms]="['email']">
+    <ng-template amplifySlot="header">
+      <div class="auth-brand-block">
+        <h1 class="auth-brand-title">
+          Finance Tracker <span class="auth-brand-version">1.0</span>
+        </h1>
+        <p class="auth-brand-sub">Sign in or create an account to track your money.</p>
       </div>
+    </ng-template>
 
-      <main class="app-main">
-        <router-outlet />
-      </main>
-    </div>
-  </ng-template>
-</amplify-authenticator>
+    <ng-template amplifySlot="authenticated">
+      <div class="app-shell">
+        <div class="app-header-bar">
+          <p-menubar [model]="navItems" [breakpoint]="'0px'" styleClass="app-menubar-inner">
+            <ng-template pTemplate="start">
+              <a routerLink="/dashboard" class="app-brand">{{ title }}</a>
+            </ng-template>
+          </p-menubar>
+          <div class="app-header-signout">
+            <p-button
+              type="button"
+              label="Sign out"
+              icon="pi pi-sign-out"
+              severity="danger"
+              size="small"
+              (onClick)="signOut()"
+            />
+          </div>
+        </div>
+
+        <main class="app-main">
+          <router-outlet />
+        </main>
+      </div>
+    </ng-template>
+  </amplify-authenticator>
+</div>
