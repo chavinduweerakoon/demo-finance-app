@@ -17,14 +17,14 @@
 
   @if (loading()) {
     <p class="muted-text mb-4 m-0">Loading…</p>
-  } @else if (rows().length === 0) {
+} @else if (rows().length === 0) {
     <p-card styleClass="empty-state">
       <p class="muted-text m-0 mb-2">No transactions yet.</p>
       <a routerLink="/add" pButton type="button" [text]="true" styleClass="app-btn app-btn--link">Add your first transaction</a>
     </p-card>
   } @else {
     <div class="table-scroll">
-    <p-table [value]="rows()" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '40rem' }">
+  <p-table [value]="rows()" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '40rem' }">
       <ng-template pTemplate="header">
         <tr>
           <th scope="col">Date</th>

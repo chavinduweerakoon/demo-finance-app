@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
   protected readonly loadError = signal<string | null>(null);
 
   /** Expense-only totals by category (same source as `spendingByCategory`). */
-  protected readonly expenseChartData = computed<ChartData<'bar'>>(() => {
+  protected readonly expenseChartData = computed<ChartData<'pie'>>(() => {
     const rows = this.spendingByCategory();
     return {
       labels: rows.map((r) => r.category),
@@ -88,15 +88,12 @@ export class DashboardComponent implements OnInit {
           backgroundColor: 'rgba(37, 99, 235, 0.55)',
           borderColor: 'rgba(37, 99, 235, 0.95)',
           borderWidth: 1,
-          borderRadius: 4,
-          maxBarThickness: 22,
         },
       ],
     };
   });
 
-  protected readonly expenseChartOptions: ChartConfiguration<'bar'>['options'] = {
-    indexAxis: 'y',
+  protected readonly expenseChartOptions: ChartConfiguration<'pie'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -114,17 +111,6 @@ export class DashboardComponent implements OnInit {
               : '';
           },
         },
-      },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        grid: { color: 'rgba(24, 24, 27, 0.08)' },
-        ticks: { font: { size: 11 }, color: '#71717a' },
-      },
-      y: {
-        grid: { display: false },
-        ticks: { font: { size: 11 }, color: '#71717a' },
       },
     },
   };
