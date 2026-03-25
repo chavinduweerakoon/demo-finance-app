@@ -4,16 +4,40 @@
       <h1 class="page-title">Dashboard</h1>
       <p class="page-subtitle">Overview of your cash flow</p>
     </div>
-    <div class="currency-select">
-      <label for="dash-currency" class="field-label" style="margin-right: 0.5rem !important;">Currency</label>
-      <p-select
-        inputId="dash-currency"
-        [options]="currencyOptions"
-        optionLabel="label"
-        optionValue="value"
-        [ngModel]="selectedCurrency()"
-        (ngModelChange)="selectedCurrency.set($event)"
-      />
+    <div class="currency-select" style="display: flex !important; gap: 0.75rem !important; align-items: center !important;">
+      <div>
+        <label for="dash-currency" class="field-label" style="margin-right: 0.5rem !important;">Currency</label>
+        <p-select
+          inputId="dash-currency"
+          [options]="currencyOptions"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="selectedCurrency()"
+          (ngModelChange)="selectedCurrency.set($event)"
+        />
+      </div>
+      <div>
+        <label for="dash-range" class="field-label" style="margin-right: 0.5rem !important;">Range</label>
+        <p-select
+          inputId="dash-range"
+          [options]="rangeOptions"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="selectedRange()"
+          (ngModelChange)="selectedRange.set($event)"
+        />
+      </div>
+      <div [hidden]="selectedRange() !== 'CUSTOM'">
+        <label for="dash-custom-range" class="field-label" style="margin-right: 0.5rem !important;">Dates</label>
+        <p-datepicker
+          inputId="dash-custom-range"
+          selectionMode="range"
+          dateFormat="yy-mm-dd"
+          [showIcon]="true"
+          [ngModel]="customRange()"
+          (ngModelChange)="customRange.set($event)"
+        />
+      </div>
     </div>
   </div>
 
@@ -46,13 +70,13 @@
     </p-card>
   </div>
 
-  @if (topExpenseCategoryThisMonth(); as top) {
+  @if (topExpenseCategoryThisPeriod(); as top) {
     <p-card styleClass="mt-6 insight-card">
       <ng-template pTemplate="title">
         <span class="stat-label">Insight</span>
       </ng-template>
       <p class="insight-body">
-        You spent the most on <strong>{{ top.category }}</strong> this month
+        You spent the most on <strong>{{ top.category }}</strong> in <span class="muted-text">{{ rangeLabel() }}</span>
         <span class="muted-text">({{ top.amount | currency : currencyCode() : 'symbol' : '1.2-2' }})</span>
       </p>
     </p-card>
@@ -61,7 +85,7 @@
       <ng-template pTemplate="title">
         <span class="stat-label">Insight</span>
       </ng-template>
-      <p class="insight-body muted-text">No spending recorded this month yet.</p>
+      <p class="insight-body muted-text">No spending recorded in {{ rangeLabel() }} yet.</p>
     </p-card>
   }
 
