@@ -11,7 +11,8 @@ const schema = a.schema({
   Transaction: a
     .model({
       type: a.string().required(),       // income | expense
-      currency: a.string().required(),   // LKR | USD
+      // Optional to support existing rows created before currency was introduced.
+      currency: a.string(),              // LKR | USD
       amount: a.float().required(),
       category: a.string().required(),
       note: a.string(),

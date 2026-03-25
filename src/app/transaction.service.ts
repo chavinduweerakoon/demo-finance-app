@@ -127,10 +127,12 @@ export class TransactionService {
     note?: string | null;
     date: string;
   }): Transaction {
+    const rawCurrency = row.currency ?? 'LKR';
+    const currency = String(rawCurrency).toUpperCase() as CurrencyCode;
     return {
       id: row.id,
       type: row.type as TransactionType,
-      currency: (row.currency ?? 'LKR') as CurrencyCode,
+      currency,
       amount: row.amount,
       category: row.category,
       note: row.note ?? '',

@@ -52,6 +52,13 @@
               "isRequired": true,
               "attributes": []
             },
+            "currency": {
+              "name": "currency",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "amount": {
               "name": "amount",
               "isArray": false,
