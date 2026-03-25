@@ -1,0 +1,136 @@
+<section class="mx-auto max-w-3xl">
+  <div class="mb-8">
+    <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Dashboard</h1>
+    <p class="mt-1 text-sm text-zinc-500">Overview of your cash flow</p>
+  </div>
+
+  @if (showSaved()) {
+    <p
+      class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
+      role="status"
+    >
+      Transaction saved.
+    </p>
+  }
+
+  @if (loadError(); as err) {
+    <p class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900" role="alert">
+      {{ err }}
+    </p>
+  }
+
+  <div class="grid gap-3 sm:grid-cols-3" [attr.aria-busy]="loading()">
+    <article
+      class="rounded-2xl border border-zinc-200/80 border-l-4 border-l-emerald-500 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5"
+    >
+      <span class="text-[0.65rem] font-medium uppercase tracking-wider text-zinc-500">Total income</span>
+      <span class="mt-1 block text-2xl font-semibold tabular-nums text-zinc-900">{{
+        totalIncome() | number : '1.2-2'
+      }}</span>
+    </article>
+    <article
+      class="rounded-2xl border border-zinc-200/80 border-l-4 border-l-red-500 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5"
+    >
+      <span class="text-[0.65rem] font-medium uppercase tracking-wider text-zinc-500">Total expenses</span>
+      <span class="mt-1 block text-2xl font-semibold tabular-nums text-zinc-900">{{
+        totalExpenses() | number : '1.2-2'
+      }}</span>
+    </article>
+    <article
+      class="rounded-2xl border border-zinc-200/80 border-l-4 border-l-blue-600 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5"
+    >
+      <span class="text-[0.65rem] font-medium uppercase tracking-wider text-zinc-500">Balance</span>
+      <span class="mt-1 block text-2xl font-semibold tabular-nums text-zinc-900">{{ balance() | number : '1.2-2' }}</span>
+    </article>
+  </div>
+
+  @if (topExpenseCategoryThisMonth(); as top) {
+    <article
+      class="mt-6 rounded-2xl border border-zinc-200/80 border-l-4 border-l-blue-600 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5"
+    >
+      <span class="text-[0.65rem] font-medium uppercase tracking-wider text-zinc-500">Insight</span>
+      <p class="mt-2 text-sm leading-relaxed text-zinc-800">
+        You spent the most on <strong class="font-semibold text-zinc-900">{{ top.category }}</strong> this month
+        <span class="ml-1 tabular-nums text-zinc-500">({{ top.amount | number : '1.2-2' }})</span>
+      </p>
+    </article>
+  } @else if (!loading()) {
+    <article
+      class="mt-6 rounded-2xl border border-zinc-200/80 border-l-4 border-l-zinc-200 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5"
+    >
+      <span class="text-[0.65rem] font-medium uppercase tracking-wider text-zinc-500">Insight</span>
+      <p class="mt-2 text-sm text-zinc-500">No spending recorded this month yet.</p>
+    </article>
+  }
+
+  <div class="mt-8 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5">
+    <h2 class="text-base font-semibold text-zinc-900">Spending by category</h2>
+    @if (loading()) {
+      <p class="mt-4 text-sm text-zinc-500">Loading…</p>
+    } @else if (spendingByCategory().length === 0) {
+      <p class="mt-4 text-sm text-zinc-500">
+        No expenses yet.
+        <a routerLink="/add" class="font-medium text-blue-600 hover:underline">Add a transaction</a>
+      </p>
+    } @else {
+      <div class="relative mb-5 mt-4 w-full" [style.height.px]="chartHeightPx()">
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [data]="expenseChartData()"
+          [options]="expenseChartOptions"
+          aria-label="Expense totals by category"
+        ></canvas>
+      </div>
+      <ul class="divide-y divide-zinc-100 border-t border-zinc-100 pt-4">
+        @for (row of spendingByCategory(); track row.category) {
+          <li class="flex items-baseline justify-between gap-3 py-2 first:pt-0">
+            <span class="min-w-0 truncate text-sm font-medium text-zinc-800">{{ row.category }}</span>
+            <span class="shrink-0 text-sm font-semibold tabular-nums text-zinc-900">{{
+              row.amount | number : '1.2-2'
+            }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <div class="mt-8 rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm ring-1 ring-zinc-950/5">
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+      <h2 class="text-base font-semibold text-zinc-900">Recent</h2>
+      <a routerLink="/transactions" class="text-sm font-medium text-blue-600 hover:underline">All transactions</a>
+    </div>
+    @if (loading()) {
+      <p class="text-sm text-zinc-500">Loading…</p>
+    } @else if (recent().length === 0) {
+      <p class="text-sm text-zinc-500">
+        No transactions yet.
+        <a routerLink="/add" class="font-medium text-blue-600 hover:underline">Add one</a>
+      </p>
+    } @else {
+      <ul class="flex flex-col gap-3">
+        @for (t of recent().slice(0, 5); track t.id) {
+          <li class="grid grid-cols-[auto_1fr_auto] items-center gap-3 text-sm">
+            <span
+              class="rounded px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase"
+              [class.bg-emerald-100]="t.type === 'income'"
+              [class.text-emerald-800]="t.type === 'income'"
+              [class.bg-red-100]="t.type === 'expense'"
+              [class.text-red-800]="t.type === 'expense'"
+            >
+              {{ t.type }}
+            </span>
+            <span class="min-w-0 truncate text-zinc-800">{{ t.category }}</span>
+            <span
+              class="tabular-nums font-medium"
+              [class.text-red-600]="t.type === 'expense'"
+              [class.text-emerald-600]="t.type === 'income'"
+            >
+              {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | number : '1.2-2' }}
+            </span>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</section>

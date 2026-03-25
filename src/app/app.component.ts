@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AmplifyAuthenticatorModule, AuthenticatorService } from '@aws-amplify/ui-angular';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, AmplifyAuthenticatorModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styles: [],
 })
 export class AppComponent {
-  title = 'demo-finance-app';
+  protected readonly title = 'Finance';
+
+  private readonly auth = inject(AuthenticatorService);
+
+  protected signOut(): void {
+    void this.auth.signOut();
+  }
 }

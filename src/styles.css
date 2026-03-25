@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+
+@source './**/*.{html,ts}';
+
+@layer base {
+  body {
+    @apply m-0 min-h-screen bg-zinc-50 text-zinc-900 antialiased;
+  }
+}

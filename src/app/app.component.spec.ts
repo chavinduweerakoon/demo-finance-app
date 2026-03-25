@@ -1,29 +1,30 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { Amplify } from 'aws-amplify';
+import outputs from '../amplify_outputs.json';
 import { AppComponent } from './app.component';
+import { routes } from './app.routes';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
+    Amplify.configure(outputs);
     await TestBed.configureTestingModule({
       imports: [AppComponent],
+      providers: [provideRouter(routes)],
     }).compileComponents();
   });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'demo-finance-app' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('demo-finance-app');
-  });
-
-  it('should render title', () => {
+  it('should render the authenticator shell', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, demo-finance-app');
+    expect(compiled.querySelector('amplify-authenticator')).toBeTruthy();
   });
 });
