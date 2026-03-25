@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { DecimalPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Button, ButtonDirective } from 'primeng/button';
 import { Card } from 'primeng/card';
@@ -11,7 +11,7 @@ import { TransactionService } from '../transaction.service';
 @Component({
   selector: 'app-transactions-list',
   imports: [
-    DecimalPipe,
+    CurrencyPipe,
     DatePipe,
     RouterLink,
     Card,

@@ -11,6 +11,7 @@ const schema = a.schema({
   Transaction: a
     .model({
       type: a.string().required(),       // income | expense
+      currency: a.string().required(),   // LKR | USD
       amount: a.float().required(),
       category: a.string().required(),
       note: a.string(),

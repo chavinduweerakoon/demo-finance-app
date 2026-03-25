@@ -29,6 +29,7 @@
         <tr>
           <th scope="col">Date</th>
           <th scope="col">Type</th>
+          <th scope="col">Currency</th>
           <th scope="col">Category</th>
           <th scope="col" class="col-note">Note</th>
           <th scope="col" class="text-right">Amount</th>
@@ -41,6 +42,7 @@
           <td>
             <p-tag [value]="t.type" [severity]="t.type === 'income' ? 'success' : 'danger'" />
           </td>
+          <td>{{ t.currency }}</td>
           <td>{{ t.category }}</td>
           <td class="col-note truncate" [title]="t.note || ''">{{ t.note || '—' }}</td>
           <td
@@ -48,7 +50,7 @@
             [class.amount-out]="t.type === 'expense'"
             [class.amount-in]="t.type === 'income'"
           >
-            {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | number : '1.2-2' }}
+            {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | currency : t.currency : 'symbol' : '1.2-2' }}
           </td>
           <td class="text-right col-actions">
             <p-button

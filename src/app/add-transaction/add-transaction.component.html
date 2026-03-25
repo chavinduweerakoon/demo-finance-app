@@ -20,6 +20,19 @@
       </div>
 
       <div class="field">
+        <label for="tx-currency" class="field-label">Currency</label>
+        <p-select
+          inputId="tx-currency"
+          formControlName="currency"
+          [options]="currencyOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Select currency"
+          [fluid]="true"
+        />
+      </div>
+
+      <div class="field">
         <label for="tx-amount" class="field-label">Amount</label>
         <p-inputNumber
           inputId="tx-amount"

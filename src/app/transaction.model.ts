@@ -1,8 +1,10 @@
 export type TransactionType = 'income' | 'expense';
+export type CurrencyCode = 'LKR' | 'USD';
 
 export interface Transaction {
   id: string;
   type: TransactionType;
+  currency: CurrencyCode;
   amount: number;
   category: string;
   note: string;

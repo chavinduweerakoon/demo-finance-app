@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from './amplify/data/resource';
-import type { Transaction, TransactionType } from './transaction.model';
+import type { CurrencyCode, Transaction, TransactionType } from './transaction.model';
 
 export type CreateTransactionInput = Omit<Transaction, 'id'>;
 
@@ -98,6 +98,7 @@ export class TransactionService {
   async createTransaction(input: CreateTransactionInput): Promise<void> {
     const { errors } = await this.client.models.Transaction.create({
       type: input.type,
+      currency: input.currency,
       amount: input.amount,
       category: input.category,
       note: input.note?.trim() ? input.note.trim() : undefined,
@@ -120,6 +121,7 @@ export class TransactionService {
   private mapRow(row: {
     id: string;
     type: string;
+    currency?: string | null;
     amount: number;
     category: string;
     note?: string | null;
@@ -128,6 +130,7 @@ export class TransactionService {
     return {
       id: row.id,
       type: row.type as TransactionType,
+      currency: (row.currency ?? 'LKR') as CurrencyCode,
       amount: row.amount,
       category: row.category,
       note: row.note ?? '',

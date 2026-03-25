@@ -155,6 +155,18 @@ body {
   margin-bottom: 2rem;
 }
 
+.page-head-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.currency-select {
+  min-width: 10rem;
+}
+
 .stat-grid {
   display: grid;
   gap: 0.75rem;

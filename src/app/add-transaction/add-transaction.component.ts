@@ -8,7 +8,7 @@ import { InputNumber } from 'primeng/inputnumber';
 import { InputText } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { Textarea } from 'primeng/textarea';
-import { TransactionType } from '../transaction.model';
+import { CurrencyCode, TransactionType } from '../transaction.model';
 import { TransactionService } from '../transaction.service';
 
 function toIsoDateLocal(d: Date): string {
@@ -44,9 +44,14 @@ export class AddTransactionComponent {
     { label: 'Income', value: 'income' },
     { label: 'Expense', value: 'expense' },
   ];
+  protected readonly currencyOptions: { label: string; value: CurrencyCode }[] = [
+    { label: 'LKR', value: 'LKR' },
+    { label: 'USD', value: 'USD' },
+  ];
 
   readonly form = this.fb.group({
     type: this.fb.nonNullable.control<TransactionType>('expense', Validators.required),
+    currency: this.fb.nonNullable.control<CurrencyCode>('LKR', Validators.required),
     amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.01)]),
     category: ['', [Validators.required, Validators.maxLength(64)]],
     note: ['', Validators.maxLength(256)],
@@ -69,6 +74,7 @@ export class AddTransactionComponent {
     try {
       await this.txs.createTransaction({
         type: v.type,
+        currency: v.currency,
         amount: Number(v.amount),
         category: v.category.trim(),
         note: (v.note ?? '').trim(),

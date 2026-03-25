@@ -8,6 +8,7 @@ const schema = a.schema({
   Transaction: a
     .model({
       type: a.string().required(),
+      currency: a.string().required(),
       amount: a.float().required(),
       category: a.string().required(),
       note: a.string(),

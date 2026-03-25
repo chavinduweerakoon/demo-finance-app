@@ -1,7 +1,20 @@
 <section class="page-wide">
-  <div class="page-head">
-    <h1 class="page-title">Dashboard</h1>
-    <p class="page-subtitle">Overview of your cash flow</p>
+  <div class="page-head page-head-row">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Overview of your cash flow</p>
+    </div>
+    <div class="currency-select">
+      <label for="dash-currency" class="field-label" style="margin-right: 0.5rem !important;">Currency</label>
+      <p-select
+        inputId="dash-currency"
+        [options]="currencyOptions"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="selectedCurrency()"
+        (ngModelChange)="selectedCurrency.set($event)"
+      />
+    </div>
   </div>
 
   @if (showSaved()) {
@@ -17,19 +30,19 @@
       <ng-template pTemplate="title">
         <span class="stat-label">Total income</span>
       </ng-template>
-      <span class="stat-value">{{ totalIncome() | number : '1.2-2' }}</span>
+      <span class="stat-value">{{ totalIncome() | currency : currencyCode() : 'symbol' : '1.2-2' }}</span>
     </p-card>
     <p-card styleClass="stat-card stat-card--expense">
       <ng-template pTemplate="title">
         <span class="stat-label">Total expenses</span>
       </ng-template>
-      <span class="stat-value">{{ totalExpenses() | number : '1.2-2' }}</span>
+      <span class="stat-value">{{ totalExpenses() | currency : currencyCode() : 'symbol' : '1.2-2' }}</span>
     </p-card>
     <p-card styleClass="stat-card stat-card--balance">
       <ng-template pTemplate="title">
         <span class="stat-label">Balance</span>
       </ng-template>
-      <span class="stat-value">{{ balance() | number : '1.2-2' }}</span>
+      <span class="stat-value">{{ balance() | currency : currencyCode() : 'symbol' : '1.2-2' }}</span>
     </p-card>
   </div>
 
@@ -40,7 +53,7 @@
       </ng-template>
       <p class="insight-body">
         You spent the most on <strong>{{ top.category }}</strong> this month
-        <span class="muted-text">({{ top.amount | number : '1.2-2' }})</span>
+        <span class="muted-text">({{ top.amount | currency : currencyCode() : 'symbol' : '1.2-2' }})</span>
       </p>
     </p-card>
   } @else if (!loading()) {
@@ -74,7 +87,9 @@
         @for (row of spendingByCategory(); track row.category) {
           <li>
             <span class="truncate font-medium">{{ row.category }}</span>
-            <span class="font-semibold tabular-nums">{{ row.amount | number : '1.2-2' }}</span>
+            <span class="font-semibold tabular-nums">{{
+              row.amount | currency : currencyCode() : 'symbol' : '1.2-2'
+            }}</span>
           </li>
         }
       </ul>
@@ -106,7 +121,7 @@
               [class.amount-out]="t.type === 'expense'"
               [class.amount-in]="t.type === 'income'"
             >
-              {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | number : '1.2-2' }}
+              {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | currency : t.currency : 'symbol' : '1.2-2' }}
             </span>
           </li>
         }
