@@ -1,11 +1,26 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DecimalPipe, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Button, ButtonDirective } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Message } from 'primeng/message';
+import { TableModule } from 'primeng/table';
+import { Tag } from 'primeng/tag';
 import { TransactionService } from '../transaction.service';
 
 @Component({
   selector: 'app-transactions-list',
-  imports: [DecimalPipe, DatePipe, RouterLink],
+  imports: [
+    DecimalPipe,
+    DatePipe,
+    RouterLink,
+    Card,
+    Message,
+    TableModule,
+    Tag,
+    Button,
+    ButtonDirective,
+  ],
   templateUrl: './transactions-list.component.html',
   styles: [],
 })

@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { Amplify } from 'aws-amplify';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 import outputs from '../amplify_outputs.json';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
@@ -10,7 +13,11 @@ describe('AppComponent', () => {
     Amplify.configure(outputs);
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter(routes)],
+      providers: [
+        provideRouter(routes),
+        provideAnimationsAsync(),
+        providePrimeNG({ theme: { preset: Aura } }),
+      ],
     }).compileComponents();
   });
 

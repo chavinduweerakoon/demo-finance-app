@@ -3,11 +3,15 @@ import { DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import type { ChartConfiguration, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { ButtonDirective } from 'primeng/button';
+import { Card } from 'primeng/card';
+import { Message } from 'primeng/message';
+import { Tag } from 'primeng/tag';
 import { TransactionService } from '../transaction.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [DecimalPipe, RouterLink, BaseChartDirective],
+  imports: [DecimalPipe, RouterLink, BaseChartDirective, Card, Message, Tag, ButtonDirective],
   templateUrl: './dashboard.component.html',
   styles: [],
 })

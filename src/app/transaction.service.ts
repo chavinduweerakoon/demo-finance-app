@@ -5,6 +5,13 @@ import type { Transaction, TransactionType } from './transaction.model';
 
 export type CreateTransactionInput = Omit<Transaction, 'id'>;
 
+function inCalendarMonth(isoDate: string, year: number, month1to12: number): boolean {
+  const parts = isoDate.split('-').map(Number);
+  if (parts.length < 2) return false;
+  const [y, m] = parts;
+  return y === year && m === month1to12;
+}
+
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
   private readonly client = generateClient<Schema>();
@@ -127,11 +134,4 @@ export class TransactionService {
       date: row.date,
     };
   }
-}
-
-function inCalendarMonth(isoDate: string, year: number, month1to12: number): boolean {
-  const parts = isoDate.split('-').map(Number);
-  if (parts.length < 2) return false;
-  const [y, m] = parts;
-  return y === year && m === month1to12;
 }

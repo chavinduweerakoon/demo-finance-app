@@ -1,122 +1,71 @@
-<section class="mx-auto max-w-3xl">
-  <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+<section class="page-wide">
+  <div class="txn-list-head">
     <div>
-      <h1 class="text-2xl font-semibold tracking-tight text-zinc-900">Transactions</h1>
-      <p class="mt-1 text-sm text-zinc-500">Newest first</p>
+      <h1 class="page-title">Transactions</h1>
+      <p class="page-subtitle">Newest first</p>
     </div>
-    <a
-      routerLink="/add"
-      class="inline-flex shrink-0 items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-      >Add</a
-    >
+    <a routerLink="/add" pButton type="button" icon="pi pi-plus" label="Add"></a>
   </div>
 
   @if (showSaved()) {
-    <p
-      class="mb-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
-      role="status"
-    >
-      Transaction saved.
-    </p>
+    <p-message severity="success" styleClass="mb-4" role="status">Transaction saved.</p-message>
   }
 
   @if (errorMessage(); as err) {
-    <p class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900" role="alert">
-      {{ err }}
-    </p>
+    <p-message severity="error" styleClass="mb-4" role="alert">{{ err }}</p-message>
   }
 
   @if (loading()) {
-    <p class="mb-4 text-sm text-zinc-500">Loading…</p>
+    <p class="muted-text mb-4 m-0">Loading…</p>
   } @else if (rows().length === 0) {
-    <div
-      class="rounded-2xl border border-dashed border-zinc-200 bg-white px-6 py-10 text-center text-sm text-zinc-500 shadow-sm"
-    >
-      <p class="mb-2">No transactions yet.</p>
-      <a routerLink="/add" class="font-medium text-blue-600 hover:underline">Add your first transaction</a>
-    </div>
+    <p-card styleClass="empty-state">
+      <p class="muted-text m-0 mb-2">No transactions yet.</p>
+      <a routerLink="/add" pButton type="button" [text]="true">Add your first transaction</a>
+    </p-card>
   } @else {
-    <div class="overflow-x-auto rounded-2xl border border-zinc-200/80 bg-white shadow-sm ring-1 ring-zinc-950/5">
-      <table class="w-full min-w-[640px] border-collapse text-sm">
-        <thead>
-          <tr class="border-b border-zinc-100 bg-zinc-50/80">
-            <th scope="col" class="px-4 py-3 text-left text-[0.65rem] font-semibold uppercase tracking-wider text-zinc-500">
-              Date
-            </th>
-            <th
-              scope="col"
-              class="px-4 py-3 text-left text-[0.65rem] font-semibold uppercase tracking-wider text-zinc-500"
-            >
-              Type
-            </th>
-            <th
-              scope="col"
-              class="px-4 py-3 text-left text-[0.65rem] font-semibold uppercase tracking-wider text-zinc-500"
-            >
-              Category
-            </th>
-            <th
-              scope="col"
-              class="max-w-[12rem] px-4 py-3 text-left text-[0.65rem] font-semibold uppercase tracking-wider text-zinc-500 sm:max-w-xs"
-            >
-              Note
-            </th>
-            <th
-              scope="col"
-              class="px-4 py-3 text-right text-[0.65rem] font-semibold uppercase tracking-wider text-zinc-500"
-            >
-              Amount
-            </th>
-            <th scope="col" class="w-px px-4 py-3">
-              <span class="sr-only">Actions</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (t of rows(); track t.id) {
-            <tr class="border-b border-zinc-100 last:border-0">
-              <td class="whitespace-nowrap px-4 py-3 text-zinc-800">{{ t.date | date : 'mediumDate' }}</td>
-              <td class="px-4 py-3">
-                <span
-                  class="inline-block rounded px-1.5 py-0.5 text-[0.65rem] font-semibold uppercase"
-                  [class.bg-emerald-100]="t.type === 'income'"
-                  [class.text-emerald-800]="t.type === 'income'"
-                  [class.bg-red-100]="t.type === 'expense'"
-                  [class.text-red-800]="t.type === 'expense'"
-                >
-                  {{ t.type }}
-                </span>
-              </td>
-              <td class="px-4 py-3 text-zinc-800">{{ t.category }}</td>
-              <td
-                class="max-w-[6rem] truncate px-4 py-3 text-zinc-600 sm:max-w-[12rem]"
-                [title]="t.note || ''"
-              >
-                {{ t.note || '—' }}
-              </td>
-              <td
-                class="whitespace-nowrap px-4 py-3 text-right text-sm font-semibold tabular-nums"
-                [class.text-red-600]="t.type === 'expense'"
-                [class.text-emerald-600]="t.type === 'income'"
-              >
-                {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | number : '1.2-2' }}
-              </td>
-              <td class="whitespace-nowrap px-4 py-3 text-right">
-                <button
-                  type="button"
-                  class="rounded-lg border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-xs font-medium text-zinc-600 transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
-                  (click)="remove(t.id, $event)"
-                  [disabled]="deletingId() === t.id"
-                  [attr.aria-busy]="deletingId() === t.id"
-                  title="Delete transaction"
-                >
-                  {{ deletingId() === t.id ? '…' : 'Delete' }}
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+    <div class="table-scroll">
+    <p-table [value]="rows()" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '40rem' }">
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Type</th>
+          <th scope="col">Category</th>
+          <th scope="col" class="col-note">Note</th>
+          <th scope="col" class="text-right">Amount</th>
+          <th scope="col" class="col-actions"><span class="sr-only">Actions</span></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-t>
+        <tr>
+          <td>{{ t.date | date : 'mediumDate' }}</td>
+          <td>
+            <p-tag [value]="t.type" [severity]="t.type === 'income' ? 'success' : 'danger'" />
+          </td>
+          <td>{{ t.category }}</td>
+          <td class="col-note truncate" [title]="t.note || ''">{{ t.note || '—' }}</td>
+          <td
+            class="text-right tabular-nums font-semibold"
+            [class.amount-out]="t.type === 'expense'"
+            [class.amount-in]="t.type === 'income'"
+          >
+            {{ t.type === 'expense' ? '−' : '+' }}{{ t.amount | number : '1.2-2' }}
+          </td>
+          <td class="text-right col-actions">
+            <p-button
+              type="button"
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              [attr.aria-busy]="deletingId() === t.id"
+              [loading]="deletingId() === t.id"
+              (onClick)="remove(t.id, $event)"
+              title="Delete transaction"
+            />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
     </div>
   }
 </section>
