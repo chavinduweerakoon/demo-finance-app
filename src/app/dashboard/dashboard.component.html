@@ -71,7 +71,7 @@
     } @else if (spendingByCategory().length === 0) {
       <p class="muted-text m-0">
         No expenses yet.
-        <a routerLink="/add" pButton type="button" [text]="true">Add a transaction</a>
+        <a routerLink="/add" pButton type="button" [text]="true" styleClass="app-btn app-btn--link">Add a transaction</a>
       </p>
     } @else {
       <div class="chart-wrap" [style.height.px]="chartHeightPx()">
@@ -100,7 +100,7 @@
     <ng-template pTemplate="title">
       <div class="card-title-row">
         <span>Recent</span>
-        <a routerLink="/transactions" pButton type="button" [text]="true">All transactions</a>
+        <a routerLink="/transactions" pButton type="button" [text]="true" styleClass="app-btn app-btn--link">All transactions</a>
       </div>
     </ng-template>
     @if (loading()) {
@@ -108,7 +108,7 @@
     } @else if (recent().length === 0) {
       <p class="muted-text m-0">
         No transactions yet.
-        <a routerLink="/add" pButton type="button" [text]="true">Add one</a>
+        <a routerLink="/add" pButton type="button" [text]="true" styleClass="app-btn app-btn--link">Add one</a>
       </p>
     } @else {
       <ul class="recent-list">

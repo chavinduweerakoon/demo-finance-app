@@ -4,7 +4,7 @@
       <h1 class="page-title">Transactions</h1>
       <p class="page-subtitle">Newest first</p>
     </div>
-    <a routerLink="/add" pButton type="button" icon="pi pi-plus" label="Add"></a>
+    <a routerLink="/add" pButton type="button" icon="pi pi-plus" label="Add" styleClass="app-btn app-btn--primary"></a>
   </div>
 
   @if (showSaved()) {
@@ -20,7 +20,7 @@
   } @else if (rows().length === 0) {
     <p-card styleClass="empty-state">
       <p class="muted-text m-0 mb-2">No transactions yet.</p>
-      <a routerLink="/add" pButton type="button" [text]="true">Add your first transaction</a>
+      <a routerLink="/add" pButton type="button" [text]="true" styleClass="app-btn app-btn--link">Add your first transaction</a>
     </p-card>
   } @else {
     <div class="table-scroll">
@@ -59,6 +59,7 @@
               [rounded]="true"
               [text]="true"
               severity="danger"
+              styleClass="app-btn app-btn--danger"
               [attr.aria-busy]="deletingId() === t.id"
               [loading]="deletingId() === t.id"
               (onClick)="remove(t.id, $event)"

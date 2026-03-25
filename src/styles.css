@@ -84,6 +84,11 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background:
+    radial-gradient(ellipse 120% 80% at 20% 0%, rgba(45, 212, 191, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 60% at 100% 100%, rgba(99, 102, 241, 0.16) 0%, transparent 45%),
+    linear-gradient(155deg, rgba(12, 74, 110, 0.98) 0%, rgba(15, 23, 42, 0.98) 42%, rgba(2, 6, 23, 1) 100%);
+  color: var(--p-text-color, #e5e7eb);
 }
 
 .app-main {
@@ -95,6 +100,47 @@ body {
 
 .app-main--no-pad {
   padding: 0;
+}
+
+/* ---- App Themed Buttons (used via styleClass on PrimeNG buttons) ---- */
+:where(.p-button.app-btn) {
+  border-radius: 0.75rem;
+  font-weight: 650;
+}
+
+:where(.p-button.app-btn--primary) {
+  background: #0d9488;
+  border-color: #0d9488;
+  color: #ffffff;
+}
+:where(.p-button.app-btn--primary:hover) {
+  background: #0f766e;
+  border-color: #0f766e;
+}
+
+:where(.p-button.app-btn--secondary) {
+  background: transparent;
+  border-color: var(--p-text-muted-color, #94a3b8);
+  color: var(--p-text-color, #e5e7eb);
+}
+
+:where(.p-button.app-btn--link) {
+  border-color: transparent;
+  background: transparent;
+  color: #0d9488;
+}
+:where(.p-button.app-btn--link:hover) {
+  color: #0f766e;
+}
+
+:where(.p-button.app-btn--danger) {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+:where(.p-button.app-btn--danger:hover) {
+  background: #dc2626;
+  border-color: #dc2626;
 }
 
 /* Menubar + sign-out: end slot is unreliable (overflow/mobile); sibling stays visible */
