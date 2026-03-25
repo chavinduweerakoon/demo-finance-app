@@ -5,8 +5,8 @@ body {
   min-height: 100vh;
 }
 
-/* ---- Amplify sign-in / sign-up (gradient + centered card) ---- */
-.auth-layout:not(.auth-layout--signed-in) {
+/* ---- Amplify sign-in / sign-up (login route) ---- */
+.auth-layout {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -33,17 +33,17 @@ body {
   --amplify-components-fieldcontrol-border-radius: 0.5rem;
 }
 
-.auth-layout:not(.auth-layout--signed-in) amplify-authenticator {
+.auth-layout amplify-authenticator {
   display: block;
   width: 100%;
   max-width: 26rem;
 }
 
-.auth-layout:not(.auth-layout--signed-in) [data-amplify-authenticator] {
+.auth-layout [data-amplify-authenticator] {
   min-height: unset;
 }
 
-.auth-layout:not(.auth-layout--signed-in) [data-amplify-authenticator] [data-amplify-container] {
+.auth-layout [data-amplify-authenticator] [data-amplify-container] {
   place-self: stretch;
   width: 100%;
 }
@@ -80,19 +80,6 @@ body {
   margin-inline: auto;
 }
 
-.auth-layout--signed-in {
-  min-height: 100vh;
-  background: var(--p-content-background, #f8fafc);
-}
-
-.auth-layout--signed-in amplify-authenticator,
-.auth-layout--signed-in [data-amplify-authenticator],
-.auth-layout--signed-in [data-amplify-authenticator] [data-amplify-container] {
-  display: block;
-  width: 100%;
-  max-width: none;
-}
-
 .app-shell {
   min-height: 100vh;
   display: flex;
@@ -104,6 +91,10 @@ body {
   padding: clamp(1rem, 3vw, 2rem);
   width: 100%;
   box-sizing: border-box;
+}
+
+.app-main--no-pad {
+  padding: 0;
 }
 
 /* Menubar + sign-out: end slot is unreliable (overflow/mobile); sibling stays visible */
