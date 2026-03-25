@@ -109,7 +109,9 @@ body {
 /* Menubar + sign-out: end slot is unreliable (overflow/mobile); sibling stays visible */
 .app-header-bar {
   display: flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   width: 100%;
   flex-shrink: 0;
   background: var(--p-menubar-background, var(--p-content-background));
@@ -128,8 +130,8 @@ body {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  padding: 0 0.75rem;
-  border-left: 1px solid var(--p-menubar-border-color, var(--p-content-border-color));
+  margin-left: auto;
+  padding: 0 0.75rem 0 0;
 }
 
 .app-brand {
